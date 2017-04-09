@@ -13,11 +13,11 @@
   Match the words in the first column while matching <b>none</b> of the words in the second column!
 </h2>
 <div class="list-container">
-  <md-list>
+  <md-list dense>
     <h3 md-subheader>Match These</h3>
     <md-list-item [ngClass]="{'matched-match-word': word.matched}" class="list-word" *ngFor="let word of matchWords">{{word.word}}</md-list-item>
   </md-list>
-  <md-list>
+  <md-list dense>
     <h3 md-subheader>Don't Match These</h3>
     <md-list-item [ngClass]="{'matched-miss-word': word.matched}" class="list-word" *ngFor="let word of missWords">{{word.word}}</md-list-item>
   </md-list>
