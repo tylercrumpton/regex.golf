@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'rg works!';
   matchWords = [
     {word: 'dir', matched: true},
     {word: 'chkdsk', matched: true},
