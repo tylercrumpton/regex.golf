@@ -23,7 +23,7 @@
   </md-list>
 </div>
 <div class="regex-input-container">
-  <input type="text" class="regex-input" placeholder="Enter your RegEx..." [(ngModel)]="regexStringModel" (keyup)="checkWords(this.value)">
+  <input type="text" class="regex-input" placeholder="Enter your RegEx..." [(ngModel)]="regexStringModel" (keyup)="checkWords()">
 </div>
 
 <router-outlet></router-outlet>
