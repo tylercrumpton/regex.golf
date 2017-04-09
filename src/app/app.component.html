@@ -15,15 +15,20 @@
 <div class="list-container">
   <md-list dense>
     <h3 md-subheader>Match These</h3>
-    <md-list-item [ngClass]="{'matched-match-word': word.matched}" class="list-word" *ngFor="let word of matchWords">{{word.word}}</md-list-item>
+    <md-list-item [ngClass]="{'matched-match-word': word.matched}" class="list-word" *ngFor="let word of matchWords">
+      <md-icon *ngIf="word.matched">check</md-icon>{{word.word}}
+    </md-list-item>
   </md-list>
   <md-list dense>
     <h3 md-subheader>Don't Match These</h3>
-    <md-list-item [ngClass]="{'matched-miss-word': word.matched}" class="list-word" *ngFor="let word of missWords">{{word.word}}</md-list-item>
+    <md-list-item [ngClass]="{'matched-miss-word': word.matched}" class="list-word" *ngFor="let word of missWords">
+      <md-icon *ngIf="word.matched">warning</md-icon>{{word.word}}
+    </md-list-item>
   </md-list>
 </div>
 <div class="regex-input-container">
-  <input type="text" class="regex-input" placeholder="Enter your RegEx..." [(ngModel)]="regexStringModel" (keyup)="checkWords()">
+  <input type="text" [ngClass]="{'bad-regex-input': badRegex, 'good-regex-input': !badRegex, 'regex-input': true}"
+   placeholder="Enter your RegEx..." [(ngModel)]="regexStringModel" (keyup)="checkWords()" autocapitalize="none" autocorrect="none">
 </div>
 
 <router-outlet></router-outlet>
