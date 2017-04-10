@@ -5,23 +5,27 @@
   <a md-icon-button md-tooltip="Help"><md-icon class="navbar-icon">help</md-icon></a>
   <a md-icon-button md-tooltip="Logout"><md-icon class="navbar-icon">exit_to_app</md-icon></a>
 </md-toolbar>
-
-<h1 style="text-align: center">
-  Welcome to RegEx Golf!
-</h1>
-<h2 style="text-align: center">
-  Match the words in the first column while matching <b>none</b> of the words in the second column!
-</h2>
+<div style="text-align: center">
+  <h1>
+    Welcome to RegEx Golf!
+  </h1>
+  <h2>
+    Hole {{puzzleNumber + 1}}: {{(puzzleInfo | async)?.name}}
+  </h2>
+  <p>
+    {{(puzzleInfo | async)?.description}}
+  </p>
+</div>
 <div class="list-container">
   <md-list dense>
     <h3 md-subheader>Match These</h3>
-    <md-list-item [ngClass]="{'matched-match-word': word.matched}" class="list-word" *ngFor="let word of matchWords">
+    <md-list-item [ngClass]="{'matched-match-word': word.matched}" class="list-word" *ngFor="let word of localMatchWords">
       <md-icon *ngIf="word.matched">check</md-icon>{{word.word}}
     </md-list-item>
   </md-list>
   <md-list dense>
     <h3 md-subheader>Don't Match These</h3>
-    <md-list-item [ngClass]="{'matched-miss-word': word.matched}" class="list-word" *ngFor="let word of missWords">
+    <md-list-item [ngClass]="{'matched-miss-word': word.matched}" class="list-word" *ngFor="let word of localMissWords">
       <md-icon *ngIf="word.matched">warning</md-icon>{{word.word}}
     </md-list-item>
   </md-list>

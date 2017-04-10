@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'rg-root',
@@ -6,7 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  matchWords = [
+  /*matchWords = [
     {word: 'dir', matched: false},
     {word: 'chkdsk', matched: false},
     {word: 'diskpart', matched: false},
@@ -32,8 +34,45 @@ export class AppComponent {
     {word: 'whoami', matched: false},
     {word: 'finger', matched: false},
   ];
+  */
+  puzzleInfo: FirebaseObjectObservable<any>;
+  matchWords: FirebaseListObservable<any[]>;
+  missWords: FirebaseListObservable<any[]>;
+  localMatchWords:any[];
+  localMissWords: any[];
   regexStringModel = "";
   badRegex = false;
+  puzzleNumber = 0;
+
+  constructor(af: AngularFire) {
+    this.puzzleInfo = af.database.object('/puzzles/' + this.puzzleNumber);
+    af.database.list('/puzzleData/' + this.puzzleNumber + '/matchWords')
+      .subscribe(result => this.localMatchWords = result.map(res => {
+        let word = res.$value;
+        let matches = false;
+        if (this.regexStringModel.length !== 0) {
+          try {
+            matches = new RegExp(this.regexStringModel).test(word);
+          } catch (Error) {
+            this.badRegex = true;
+          }
+        }
+        return {word: word, matched: matches};
+      }));
+    af.database.list('/puzzleData/' + this.puzzleNumber + '/missWords')
+      .subscribe(result => this.localMissWords = result.map(res => {
+          let word = res.$value;
+          let matches = false;
+          if (this.regexStringModel.length !== 0) {
+            try {
+              matches = new RegExp(this.regexStringModel).test(word);
+            } catch (Error) {
+              this.badRegex = true;
+            }
+          }
+          return {word: word, matched: matches};
+        }));
+  }
 
   checkWords() {
     let self = this;
@@ -43,11 +82,11 @@ export class AppComponent {
     }
     else {
       try {
-        this.matchWords = this.matchWords.map((word) => {
+        this.localMatchWords = this.localMatchWords.map((word) => {
           let matches = new RegExp(self.regexStringModel).test(word.word);
           return {word: word.word, matched: matches};
         });
-        this.missWords = this.missWords.map((word) => {
+        this.localMissWords = this.localMissWords.map((word) => {
           let matches = new RegExp(self.regexStringModel).test(word.word);
           return {word: word.word, matched: matches};
         });
@@ -60,10 +99,11 @@ export class AppComponent {
   }
 
   unMatchAll() {
-    this.matchWords = this.matchWords.map((word) => {
+
+    this.localMatchWords = this.localMatchWords.map((word) => {
       return {word: word.word, matched: false};
     });
-    this.missWords = this.missWords.map((word) => {
+    this.localMissWords = this.localMissWords.map((word) => {
       return {word: word.word, matched: false};
     });
   }
