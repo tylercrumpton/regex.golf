@@ -9,7 +9,8 @@ import { AngularFire } from 'angularfire2';
   styleUrls: ['./login-dialog.component.css']
 })
 export class LoginDialogComponent implements OnInit {
-
+  email: string;
+  password: string;
   constructor(public dialogRef: MdDialogRef<LoginDialogComponent>, public snackbar: MdSnackBar, private af: AngularFire) { }
 
   ngOnInit() {

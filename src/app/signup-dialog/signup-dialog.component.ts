@@ -8,6 +8,8 @@ import { AngularFire } from 'angularfire2';
   styleUrls: ['./signup-dialog.component.css']
 })
 export class SignupDialogComponent implements OnInit {
+  email: string;
+  password: string;
 
   constructor(public dialogRef: MdDialogRef<SignupDialogComponent>,  public snackbar: MdSnackBar, private af: AngularFire) {
 
