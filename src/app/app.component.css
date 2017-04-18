@@ -1,6 +1,9 @@
 .fill-navbar {
     flex: 1 1 auto;
 }
+.navbar-icon {
+    margin-right: 10px;
+}
 .regex-input-container {
     margin-top: 0;
     margin-right: auto;

@@ -2,8 +2,14 @@
   <a md-icon-button class="navbar-logo"><md-icon>golf_course</md-icon></a>
   <span>RegEx Golf</span>
   <span class="fill-navbar"></span>
-  <a md-icon-button md-tooltip="Help"><md-icon class="navbar-icon">help</md-icon></a>
-  <a md-icon-button md-tooltip="Logout"><md-icon class="navbar-icon">exit_to_app</md-icon></a>
+  <span *ngIf="af.auth | async">
+    <a md-icon-button md-tooltip="Help"><md-icon class="navbar-icon">help</md-icon></a>
+    <a md-icon-button md-tooltip="Logout" (click)="signOut()"><md-icon class="navbar-icon">exit_to_app</md-icon></a>
+  </span>
+  <span *ngIf="!(af.auth | async)">
+    <button md-raised-button md-tooltip="Sign up!" color="accent" (click)="openSignupDialog()"><md-icon class="navbar-icon">person_add</md-icon>SIGN UP</button>
+    <button md-raised-button md-tooltip="Sign in" color="primary" (click)="openLoginDialog()"><md-icon class="navbar-icon">person</md-icon>SIGN IN</button>
+  </span>
 </md-toolbar>
 <div style="text-align: center">
   <h1>

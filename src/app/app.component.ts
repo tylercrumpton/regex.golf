@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import 'rxjs/add/operator/map';
+import {LoginDialogComponent} from './login-dialog/login-dialog.component';
+import {SignupDialogComponent} from './signup-dialog/signup-dialog.component';
+import {MdDialog, MdDialogRef, MdSnackBar} from '@angular/material';
+import {DialogService} from './dialog.service';
 
 @Component({
   selector: 'rg-root',
@@ -8,33 +12,6 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  /*matchWords = [
-    {word: 'dir', matched: false},
-    {word: 'chkdsk', matched: false},
-    {word: 'diskpart', matched: false},
-    {word: 'run', matched: false},
-    {word: 'md', matched: false},
-    {word: 'ipconfig', matched: false},
-    {word: 'mountvol', matched: false},
-    {word: 'nslookup', matched: false},
-    {word: 'perfmon', matched: false},
-    {word: 'robocopy', matched: false},
-    {word: 'taskkill', matched: false},
-  ];
-  missWords = [
-    {word: 'sudo', matched: false},
-    {word: 'apt-get', matched: false},
-    {word: 'ifconfig', matched: false},
-    {word: 'startx', matched: false},
-    {word: 'killall', matched: false},
-    {word: 'man', matched: false},
-    {word: 'tar xzf', matched: false},
-    {word: 'cat', matched: false},
-    {word: 'tail', matched: false},
-    {word: 'whoami', matched: false},
-    {word: 'finger', matched: false},
-  ];
-  */
   puzzleInfo: FirebaseObjectObservable<any>;
   matchWords: FirebaseListObservable<any[]>;
   missWords: FirebaseListObservable<any[]>;
@@ -44,7 +21,9 @@ export class AppComponent {
   badRegex = false;
   puzzleNumber = 0;
 
-  constructor(af: AngularFire) {
+  dialogRef: MdDialogRef<any>;
+
+  constructor(public af: AngularFire, public dialog: MdDialog, private dialogService: DialogService, public snackbar: MdSnackBar) {
     this.puzzleInfo = af.database.object('/puzzles/' + this.puzzleNumber);
     af.database.list('/puzzleData/' + this.puzzleNumber + '/matchWords')
       .subscribe(result => this.localMatchWords = result.map(res => {
@@ -107,4 +86,24 @@ export class AppComponent {
       return {word: word.word, matched: false};
     });
   }
+
+  openSignupDialog() {
+    this.dialogService.signUp().subscribe(result => {
+      console.log(result);
+    });
+
+
+    //this.dialogRef = this.dialog.open(SignupDialogComponent);
+  }
+  openLoginDialog() {
+    this.dialogRef = this.dialog.open(LoginDialogComponent);
+  }
+
+  signOut() {
+    this.af.auth.logout().then(() => {
+      this.snackbar.open('Successfully logged out.', 'DISMISS', {
+        duration: 3000
+      })
+  });
+}
 }

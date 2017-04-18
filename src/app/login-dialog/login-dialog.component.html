@@ -1,0 +1,22 @@
+<h1 md-dialog-title>Sign into your RegEx.Golf Account</h1>
+<form #formData='ngForm' (ngSubmit)="onSubmit(formData)">
+  <md-dialog-content>
+
+    <table>
+      <tr><td>
+        <md-input-container>
+          <input mdInput placeholder="Email" name="email" (ngModel)="email" required>
+        </md-input-container>
+      </td></tr>
+      <tr><td>
+        <md-input-container>
+          <input mdInput placeholder="Password" type="password" name="password" (ngModel)="password" required>
+        </md-input-container>
+      </td></tr>
+    </table>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-raised-button color="primary" type="submit" [disabled]="!formData.valid">SIGN IN</button>
+    <button md-button md-dialog-close>CANCEL</button>
+  </md-dialog-actions>
+</form>
