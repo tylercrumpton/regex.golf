@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import 'rxjs/add/operator/map';
+import {LoginDialogComponent} from './login-dialog/login-dialog.component';
+import {SignupDialogComponent} from './signup-dialog/signup-dialog.component';
+import {MdDialog, MdDialogRef} from '@angular/material';
 
 @Component({
   selector: 'rg-root',
@@ -44,7 +47,10 @@ export class AppComponent {
   badRegex = false;
   puzzleNumber = 0;
 
-  constructor(af: AngularFire) {
+  loginDialogRef: MdDialogRef<LoginDialogComponent>;
+  signupDialogRef: MdDialogRef<SignupDialogComponent>;
+
+  constructor(public af: AngularFire, public dialog: MdDialog) {
     this.puzzleInfo = af.database.object('/puzzles/' + this.puzzleNumber);
     af.database.list('/puzzleData/' + this.puzzleNumber + '/matchWords')
       .subscribe(result => this.localMatchWords = result.map(res => {
@@ -107,4 +113,17 @@ export class AppComponent {
       return {word: word.word, matched: false};
     });
   }
+
+  openSignupDialog() {
+    this.signupDialogRef = this.dialog.open(SignupDialogComponent);
+  }
+  openLoginDialog() {
+    this.loginDialogRef = this.dialog.open(LoginDialogComponent);
+  }
+
+  signOut() {
+    this.af.auth.logout().then(() => {
+    // user logged out
+  });
+}
 }
