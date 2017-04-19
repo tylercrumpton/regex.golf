@@ -1,0 +1,14 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "puzzles": {
+      ".read": true,
+      ".write": false
+    },
+    "puzzleData": {
+      ".read": true,
+      ".write": false
+    }
+  }
+}
